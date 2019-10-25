@@ -22,7 +22,6 @@
 
     <modules>
         <module>px-common</module>
-        <module>px-zuul9001</module>
         <module>px-zuul</module>
         <module>px-eureka3000</module>
         <module>px-user</module>
