@@ -1,0 +1,22 @@
+server:
+  port: 9003
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:3000/eureka/
+  instance:
+    instance-id: zuul-4
+    prefer-ip-address: true
+zuul:
+  ignored-services: "*"
+  routes:
+    myUser:
+      serviceId: user
+      path: /user/**
+    jobWanted:
+      serviceId: server-job-wanted
+      path: /jobWanted/**
+spring:
+  application:
+    name: zuul-server

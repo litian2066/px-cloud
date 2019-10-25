@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace用于绑定Dao接口 -->
+<mapper namespace="com.px.mapper.JobWantedMapper">
+    <select id="findAll" resultType="com.px.entity.JobWanted">
+        select
+            job_wanted_id as jobWantedId,
+            company_id as companyId,
+            company_name as companyName,
+            job_id as jobId,
+            summary as summary,
+            create_date as createDate,
+            create_user_id as createUserId
+        from job_wanted
+    </select>
+</mapper>
