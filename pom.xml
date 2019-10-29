@@ -26,6 +26,7 @@
         <module>px-eureka3000</module>
         <module>px-user</module>
         <module>px-job-wanted</module>
+        <module>px-zipkin-server</module>
     </modules>
 
 

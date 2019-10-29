@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    config:
+      name: test-config2 # 这是我们要读取的配置文件名 对应获取规则的{application}
+      profile: test # 这个是要获取的环境 对应的便是{profile}
+      label: master # 这个就是获取的节点 对应的是{label}
+      # uri: http://localhost:8080/ # 这就是我们config server的一个地址
+      discovery:
+        enabled: true
+        service-id: test

@@ -1,6 +1,5 @@
 package com.px.web;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.px.entity.JobWanted;
 import com.px.service.JobWantedService;
 import com.px.util.R;
@@ -46,12 +45,9 @@ public class JobWantedContoller {
     }
 
     @GetMapping(value = "/test")
-    @HystrixCommand(fallbackMethod = "fallbackMethod")
     public R test() {
         return R.success("test");
     }
 
-    public R fallbackMethod() {
-        return R.error("您访问的服务可能掉线了");
-    }
+
 }

@@ -1,0 +1,16 @@
+#spring:
+#  cloud:
+#    config:
+#      name: test-config2
+#      profile: test
+#      label: master
+#      # uri: http://localhost:8080/
+#      discovery:
+#        service-id: TEST
+#        enabled: true
+#
+#
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:3000/eureka/

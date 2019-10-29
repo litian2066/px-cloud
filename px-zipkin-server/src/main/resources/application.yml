@@ -1,0 +1,12 @@
+management:
+  metrics:
+    web:
+      server:
+        autoTimeRequests: false
+server:
+  port: 1000
+
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
