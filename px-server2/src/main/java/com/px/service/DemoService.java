@@ -1,5 +1,6 @@
 package com.px.service;
 
+import com.px.annotation.MyTransaction;
 import com.px.dao.DemoDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,8 +12,7 @@ public class DemoService {
     @Autowired
     private DemoDao demoDao;
 
-
-//    @LbTransactional(isEnd = true)
+    @MyTransaction(isEnd = true)
     @Transactional
     public void test() {
         demoDao.insert("server2");

@@ -1,6 +1,7 @@
 package com.px.aspect;
 
 import com.px.connection.MyConnection;
+import com.px.transaction.TransactionManage;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -20,7 +21,7 @@ public class ConnectionAspect {
             // 拿到spring的connection对象
             Connection connection = (Connection) proceedingJoinPoint.proceed();
             // 最终spring的connection对象是我们自己的connection对象
-            return new MyConnection(connection);
+            return new MyConnection(connection, TransactionManage.getCurrentTransaction());
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }

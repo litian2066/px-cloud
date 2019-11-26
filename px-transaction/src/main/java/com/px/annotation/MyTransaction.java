@@ -5,11 +5,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * 自定义分布式事务注解
+ */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MyTransaction {
-
+    // 发起事务
     boolean isStart() default false;
-
+    // 事务结束
     boolean isEnd() default false;
 }

@@ -1,5 +1,8 @@
 package com.px.connection;
 
+import com.px.transaction.Transaction;
+import com.px.transaction.TransactionType;
+
 import java.sql.*;
 import java.util.Map;
 import java.util.Properties;
@@ -13,28 +16,64 @@ public class MyConnection implements Connection {
 
     // Spring实现的connection
     private Connection connection;
+    // 把事务对象给过来，方便对其进行唤醒和等待操作
+    // 这个事务对象就是本地事务的对象
+    private Transaction transaction;
 
-    public MyConnection(Connection connection) {
+    public MyConnection(Connection connection, Transaction transaction) {
         this.connection = connection;
+        this.transaction = transaction;
     }
-
 
     @Override
     public void commit() throws SQLException {
         // 我们自己的逻辑
+        // 在提交之前需要等待, 需要拿到唤醒的事务对像，等待事务管理者通知
+//        this.transaction.getTask().waitTask();
+//        if (TransactionType.COMMIT.equals(transaction.getTransactionType())) {
+//            // 提交
+//            this.connection.commit();
+//        } else {
+//            this.connection.rollback();
+//        }
+        // 开启线程，防止spring提交一直等待的问题，也就是死锁
+        new Thread(() -> {
+            this.transaction.getTask().waitTask();
+            try {
+                if (TransactionType.COMMIT.equals(transaction.getTransactionType())) {
+                    this.connection.commit();
+                } else {
+                    this.connection.rollback();
+                }
+                this.connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
-        // 然后提交
-        this.connection.commit();
+        }).start();
     }
 
     @Override
     public void rollback() throws SQLException {
-        this.connection.rollback();
+        new Thread(() -> {
+            this.transaction.getTask().waitTask();
+            try {
+                this.connection.rollback();
+                this.connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
+    /**
+     * 因为我们这儿开启了一个线程去等待，spring会马上执行close方法，所以我们这儿不能让
+     * 它close，让它执行完我们的逻辑在close
+     * @throws SQLException
+     */
     @Override
     public void close() throws SQLException {
-        this.connection.close();
+        // this.connection.close();
     }
 
 
